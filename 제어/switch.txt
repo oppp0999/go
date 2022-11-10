@@ -1,0 +1,31 @@
+각 숫자에 대한 한글 이름을 출력하는 프로그램이 필요하다고 해보자. 지금까지 배운 내용을 이용하면 다음과 같은 코드로 시작할 수도 있다.
+
+if i == 0 {
+    fmt.Println("영")
+} else if i == 1 {
+    fmt.Println("일")
+} else if i == 2 {
+    fmt.Println("이")
+} else if i == 3 {
+    fmt.Println("삼")
+} else if i == 4 {
+    fmt.Println("사")
+} else if i == 5 {
+    fmt.Println("오")
+}
+프로그램을 이런 식으로 작성하려면 꽤나 지겹기 때문에 Go에서는 이를 더 손쉽게 만들어주는 switch라는 구문을 제공한다. 앞의 프로그램은 다음과 같이 재작성할 수 있다.
+
+switch i {
+case 0: fmt.Println("영")
+case 1: fmt.Println("일")
+case 2: fmt.Println("이")
+case 3: fmt.Println("삼")
+case 4: fmt.Println("사")
+case 5: fmt.Println("오")
+default: fmt.Println("알 수 없는 숫자")
+}
+switch 문은 switch라는 키워드로 시작한 후 수식이 나오고(이 경우 i) 각 case가 연속해서 나온다. 수식의 값은 각 case 키워드 다음에 나오는 수식과 비교된다. 두 수식의 값이 일치하면 : 다음에 나오는 문장(들)이 실행된다.
+
+if 문과 마찬가지로 각 케이스는 위에서 아래로 검사되고 가장 먼저 수식의 값이 일치하는 케이스가 선택된다. switch 문에서는 값이 일치하는 케이스가 없을 경우 실행될 기본 케이스도 지원한다(if 문의 else와 비슷하다고 보면 된다).
+
+지금까지 알아본 내용이 주요 제어 흐름 구문이다. 추가적인 구문은 이후 장에서 설명하겠다.

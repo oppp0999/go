@@ -1,0 +1,47 @@
+4.3 상수
+Go에서도 상수(constant)를 지원한다. 기본적으로 상수는 값이 바뀔 수 없다. 상수는 변수와 같은 방식으로 만들어지지만 var 키워드를 사용하는 대신 const라는 키워드를 사용한다.
+
+package main
+ 
+import "fmt"
+ 
+func main() {
+    const x string = "Hello World"
+    fmt.Println(x)
+}
+여기서 다음 코드는
+
+const x string = "Hello World"
+x = "Some other string"
+컴파일 오류가 발생한다.
+
+.\main.go:7: cannot assign to x
+상수는 프로그램 내에서 공통적인 변수를 매번 나올 때마다 작성하지 않고 재사용할 수 있는 좋은 방법이다. 예를 들어, math 패키지의 Pi는 상수로 정의돼 있다.
+
+4.4 여러 개의 변수 정의
+Go에서는 변수를 여러 개 정의해야 할 때 이용할 수 있는 축약형을 제공한다.
+
+var (
+    a = 5
+    b = 10
+    c = 15
+)
+var(또는 const) 키워드 다음에 괄호를 적고 각 변수를 한 줄씩 작성한다.
+
+4.5 예제 프로그램
+다음은 사용자가 입력한 숫자를 받아 두 배로 만드는 프로그램이다.
+
+package main
+ 
+import "fmt"
+ 
+func main() {
+    fmt.Print("Enter a number: ")
+    var input float64
+    fmt.Scanf("%f", &input)
+ 
+    output := input * 2
+    fmt.Println(output)
+}
+여기서는 사용자 입력을 읽어들이기 위해 fmt 패키지에서 제공하는 또 다른 함수(Scanf)를 사용했다. &input은 이후 장에서 설명할 테지만 지금 당장은 Scanf가 우리가 입력한 숫자로 input을 채운다는 사실만 알면 된다.
+
