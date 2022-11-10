@@ -1,0 +1,35 @@
+앞에서 Circle의 area 메서드와 똑같이 Rectangle에도 area라는 메서드를 지정할 수 있다는 점을 눈치챘을지도 모르겠다. 이것은 우연이 아니다. 현실의 삶에서도 그렇고 프로그래밍에서도 그렇듯이 이러한 관계는 보편적이다. Go에서는 인터페이스로 알려진 타입을 통해 이러한 우연한 유사성을 명시적으로 만들어주는 수단을 제공한다. 다음은 Shape 인터페이스의 예다.
+
+type Shape interface {
+    area() float64
+}
+구조체와 마찬가지로 인터페이스는 type 키워드 다음에 이름, 그리고 interface라는 키워드를 지정해서 만든다. 하지만 필드를 정의하는 대신 "메서드 집합"을 정의한다. 메서드 집합은 어떤 타입에서 인터페이스를 "구현(implement)"하기 위해 반드시 포함하고 있어야 할 메서드의 목록에 해당한다.
+
+앞서 설명한 경우에는 Rectangle과 Circle이 모두 float64를 반환하는 area 메서드를 가지고 있으므로 두 타입 모두 Shape 인터페이스를 구현하는 셈이다. 인터페이스 자체로는 그다지 유용하지 않지만 인터페이스 타입을 함수의 인자로 사용할 수 있다.
+
+func totalArea(shapes ...Shape) float64 {
+    var area float64
+    for _, s := range shapes {
+        area += s.area()
+    }
+    return area
+}
+그러면 이 함수를 다음과 같이 호출할 수 있다.
+
+fmt.Println(totalArea(&c, &r))
+인터페이스는 필드로도 사용할 수 있다.
+
+type MultiShape struct {
+    shapes []Shape
+}
+심지어 area 메서드를 부여해 MultiShape 자체를 Shape으로 전환할 수도 있다.
+
+func (m *MultiShape) area() float64 {
+    var area float64
+    for _, s := range m.shapes {
+        area += s.area()
+    }
+    return area
+}
+이제 MultiShape은 Circle이나 Rectangle, 심지어 다른 MultiShape조차도 포함할 수 있다.
+

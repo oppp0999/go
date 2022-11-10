@@ -1,0 +1,53 @@
+수정한 코드가 이 코드의 첫 번째 버전보다 더 낫긴 하지만 메서드(method)라고 하는 특별한 유형의 함수를 이용해 코드를 대폭 개선할 수 있다.
+
+func (c *Circle) area() float64 {
+    return math.Pi * c.r * c.r
+}
+func 키워드와 함수명 사이에 "수신자(receiver)"를 추가했다. 수신자는 이름과 타입이 있다는 점에서 매개변수와 비슷하지만 이런 식으로 함수를 생성하면 . 연산자를 이용해 해당 함수를 호출할 수 있다.
+
+fmt.Println(c.area())
+이 코드는 훨씬 더 읽기 쉽고 더는 & 연산자가 필요하지 않으며(Go는 자동으로 이 메서드에 Circle에 대한 포인터를 전달해야 한다는 사실을 안다) 이 함수는 Circle하고만 사용할 수 있기 때문에 함수의 이름을 단순히 area로 바꿀 수 있다. 직사각형에 대해서도 같은 작업을 해보자.
+
+type Rectangle struct {
+    x1, y1, x2, y2 float64
+}
+func (r *Rectangle) area() float64 {
+    l := distance(r.x1, r.y1, r.x1, r.y2)
+    w := distance(r.x1, r.y1, r.x2, r.y1)
+    return l * w
+}
+main 함수는 다음과 같이 수정한다.
+
+r := Rectangle{0, 0, 10, 10}
+fmt.Println(r.area())
+포함 타입
+구조체의 필드는 보통 has-a 관계를 나타낸다. 예를 들어, Circle은 radius를 가지고 있다. 사람 구조체를 생각해 보자.
+
+type Person struct {
+    Name string
+}
+func (p *Person) Talk() {
+    fmt.Println("안녕, 내 이름은 ", p.Name, "야")
+}
+그리고 새로운 Android 구조체를 만들고 싶다. 그럼 다음과 같이 할 수도 있다.
+
+type Android struct {
+    Person Person
+    Model string
+}
+이렇게 해도 동작하긴 하지만 안드로이드가 사람을 가지고 있다라기보다는(Android has a Person) 안드로이드가 사람이라고 말할 것이다(Android is a Person). Go에서는 포함 타입(embedded type)을 이용해 이 같은 관계를 지원한다. 익명 필드(anonymous field)라고도 알려져 있는 포함 타입은 다음과 같은 형태를 취한다.
+
+type Android struct {
+    Person
+    Model string
+}
+보다시피 타입(Person)을 사용하고 이름을 주지 않았다. 이런 식으로 정의하면 Person 타입명을 이용해 구조체에 접근할 수 있다.
+
+a := new(Android)
+a.Person.Talk()
+하지만 Android에서도 Person 메서드를 직접 호출할 수 있다.
+
+a := new(Android)
+a.Talk()
+is-a 관계는 이처럼 직관적으로 동작한다. 즉, 사람은 이야기할 수 있고, 안드로이드는 사람이며, 따라서 안드로이드는 이야기할 수 있다.
+

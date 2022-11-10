@@ -1,0 +1,84 @@
+Go에 내장된 데이터 타입만 이용해 프로그램을 작성하는 것도 가능하겠지만 일정 시점이 되면 그렇게 하기가 다소 지겨워질 것이다. 도형과 상호작용하는 다음과 같은 프로그램을 생각해 보자.
+
+package main
+ 
+import ("fmt"; "math")
+ 
+func distance(x1, y1, x2, y2 float64) float64 {
+    a := x2 – x1
+    b := y2 – y1
+    return math.Sqrt(a*a + b*b)
+}
+func rectangleArea(x1, y1, x2, y2 float64) float64 {
+    l := distance(x1, y1, x1, y2)
+    w := distance(x1, y1, x2, y1)
+    return l * w
+}
+ 
+func circleArea(x, y, r float64) float64 {
+    return math.Pi * r*r
+}
+ 
+func main() {
+    var rx1, ry1 float64 = 0, 0
+    var rx2, ry2 float64 = 10, 10
+    var cx, cy, cr float64 = 0, 0, 5
+ 
+    fmt.Println(rectangleArea(rx1, ry1, rx2, ry2))
+    fmt.Println(circleArea(cx, cy, cr))
+}
+모든 좌표를 관리하려면 프로그램이 어떤 일을 하는지 파악하기 힘들어지고 실수가 발생할 가능성이 높아질 것이다.
+
+9.1 구조체
+이 프로그램을 더 낫게 만드는 한 가지 손쉬운 방법은 구조체(struct)를 사용하는 것이다. 구조체는 이름이 지정된 필드가 포함된 타입이다. 예를 들어 다음과 같이 Circle을 나타낼 수도 있다.
+
+type Circle struct {
+    x float64
+    y float64
+    r float64
+}
+
+type이라는 키워드는 새 타입임을 알려준다. 그다음에 타입의 이름(Circle)이 오고 struct라는 키워드가 현재 struct 타입을 정의하고 있음을 가리키고 중괄호 안에 필드 목록이 온다. 각 필드는 이름과 타입을 가진다. 함수와 마찬가지로 타입이 동일한 필드는 겹쳐서 쓸 수 있다.
+
+type Circle struct {
+    x, y, r float64
+}
+초기화
+새 Circle 타입은 다양한 방법으로 인스턴스를 생성할 수 있다.
+
+var c Circle
+
+다른 데이터 타입과 마찬가지로 이렇게 하면 기본적으로 0으로 설정된 지역 Circle 변수가 생성된다. struct의 경우 0은 각 필드가 각 필드에 적절한 기본값(int의 경우 0, float의 경우 0.0, string의 경우 "", 포인터의 경우 nil 등)으로 설정된다는 의미다. 반면 new 함수를 사용할 수도 있다.
+
+c := new(Circle)
+이렇게 하면 모든 필드에 대한 메모리가 할당되고, 각 필드는 0 값으로 설정된 후 포인터(*Circle)가 반환된다. 하지만 각 필드에 값을 할당하고 싶을 때가 더 많다. 이렇게 하는 데는 두 가지 방법이 있다. 다음 코드를 보자.
+
+c := Circle{x: 0, y: 0, r: 5}
+또는 필드가 정의된 순서를 알고 있을 경우 필드명을 생략할 수 있다.
+
+
+c := Circle{0, 0, 5}
+필드
+. 연산자를 이용하면 필드에 접근할 수 있다.
+
+fmt.Println(c.x, c.y, c.r)
+c.x = 10
+c.y = 5
+circleArea 함수가 Circle을 사용하도록 수정해 보자.
+
+func circleArea(c Circle) float64 {
+    return math.Pi * c.r * c.r
+}
+main 함수에서는 다음과 같이 수정한다.
+c := Circle{0, 0, 5}
+fmt.Println(circleArea(c))
+여기서 한 가지 기억해야 할 점은 Go에서는 항상 인자가 복사된다는 것이다. circleArea 함수 안의 필드 중 하나를 바꾸려고 하더라도 원본 변수는 변경되지 않을 것이다. 이런 까닭에 다음과 같은 식으로 함수를 작성하곤 한다.
+func circleArea(c *Circle) float64 {
+    return math.Pi * c.r * c.r
+}
+
+그리고 main 함수는 다음과 같이 수정한다.
+
+
+c := Circle{0, 0, 5}
+    fmt.Println(circleArea(&c))
