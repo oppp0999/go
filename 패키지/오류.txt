@@ -1,0 +1,9 @@
+Go에는 이미 앞에서 본 적이 있는 오류에 대한 내장 타입(error 타입)을 제공한다. errors 패키지에 포함된 New 함수를 이용하면 자체적인 오류를 만들어낼 수 있다.
+
+package main
+ 
+import "errors"
+ 
+func main() {
+    err := errors.New("error message")
+}

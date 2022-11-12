@@ -1,0 +1,10 @@
+파일을 살펴보기에 앞서 먼저 Go의 io 패키지를 이해할 필요가 있다. io 패키지는 함수도 일부 들어 있지만 주로 다른 패키지에서 사용되는 인터페이스로 구성돼 있다. 두 가지 주요 인터페이스는 Reader와 Writer다. Reader는 Read 메서드를 통해 읽기를 지원한다. Writer는 Write 메서드를 통해 쓰기를 지원한다. Go에는 Reader와 Writer를 인자로 받는 함수가 많다. 예를 들어 io 패키지에는 Reader에서 Writer로 데이터를 복사하는 Copy 함수가 있다.
+
+
+func Copy(dst Writer, src Reader) (written int64, err error)
+[]byte나 string을 읽거나 쓰려면 bytes 패키지에 들어 있는 Buffer 구조체를 사용하면 된다.
+
+var buf bytes.Buffer
+buf.Write([]byte("test"))
+Buffer는 초기화할 필요가 없으며 Reader와 Writer를 모두 지원한다. buf.Bytes()를 호출하면 버퍼를 []byte로 변환할 수 있다. 문자열에서 읽기만 하면 된다면 버퍼를 이용하는 것보다 효율적인 strings.NewReader 함수를 이용하면 된다.
+
