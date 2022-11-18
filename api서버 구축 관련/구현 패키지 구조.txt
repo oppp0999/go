@@ -1,0 +1,73 @@
+html, css, jquery를 사용하여 간단한 프론트엔드도 구현하였습니다.
+
+ 
+
+패키지구조는 아래와 같습니다.
+
+.
+|-- README.md
+|-- README2.md
+|-- common
+|   `-- logger.go
+|-- controller
+|   |-- api
+|   |   |-- card.controller.go
+|   |   |-- response_data.go
+|   |   |-- user.controller.go
+|   |   `-- user.controller_test.go
+|   |-- dto
+|   |   `-- dto.go
+|   `-- web
+|       `-- web.controller.go
+|-- docs
+|   |-- docs.go
+|   |-- swagger.json
+|   `-- swagger.yaml
+|-- go.mod
+|-- go.sum
+|-- infrastructure
+|   |-- database
+|   |   `-- sqlstore.go
+|   `-- server
+|       `-- server.go
+|-- main.go
+|-- mocks
+|   |-- repository
+|   |   `-- UserRepository.go
+|   `-- service
+|       `-- UserService.go
+|-- model
+|   |-- card.go
+|   `-- user.go
+|-- report.json
+|-- repository
+|   |-- card.repository.go
+|   |-- card.repositoryimpl.go
+|   |-- card.repositoryimpl_test.go
+|   |-- user.repository.go
+|   |-- user.repositoryimpl.go
+|   `-- user.repositoryimpl_test.go
+|-- service
+|   |-- card.service.go
+|   |-- card.serviceimpl.go
+|   |-- user.service.go
+|   |-- user.serviceimpl.go
+|   `-- user.serviceimpl_test.go
+|-- swagger.png
+|-- test.env
+`-- view
+    |-- static
+    |   |-- css
+    |   |   `-- common.css
+    |   `-- js
+    |       |-- card.js
+    |       |-- delete.js
+    |       |-- detail.js
+    |       |-- list.js
+    |       `-- user.js
+    `-- templates
+        |-- card.html
+        |-- delete.html
+        |-- detail.html
+        |-- list.html
+        `-- user.html

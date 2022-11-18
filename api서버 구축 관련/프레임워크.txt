@@ -1,0 +1,45 @@
+gin이 제일 활발하지만
+한국에서는 echo를 가장 많이 사용한다.
+
+국내에 reference가 그나마 많다는점과 공식문서에서 example을 제공하고있어(공식홈페이지의 get started가 천사 그 자체) 러닝커브 없이 접근하기 쉽다는 장점에 echo 프레임워크를 선택하게 됐습니다.
+
+그리고 어떤 기능을 포함하냐도 중요한데 제가 원하는 기능들은 모두 포함하고 있습니다.
+
+기본적인 데이터 베이스 crud
+
+3-tier 3계층구조
+-> web server(인터넷), application server(내부서버), database server(데이터 주소)
+
+
+참고
+handler, usecase, interactor, gateway, repository 등으로 컴포넌트를 쪼개도 되지만
+가장 친숙한 controller, service, serviceImpl, repository, repositoryImpl로 컴포넌트를 나눠 개발했습니다.
+(현재는 handler, service, repository, gateway 등으로 사용하고 있습니다)
+
+
+MVC -> 디자인 패턴 ( view <-> controller -> model -> view)
+
+
+서비스단(유스케이스 인터렉터단)이 비대해지는걸 막기위해 domain model쪽에 비즈니스 로직을 구현하는게 좋다고는 하지만
+
+가장 친숙한게 3tier이니 해당 방식으로 개발하였습니다.
+
+ 
+
+echo의 기능을 많이 사용하려면 echo context를 아규먼트로 각 계층마다 전달해줘야하지만
+
+예시에서는 db transaction을 echo보다는 gorm을 이용하여 처리하였으므로 context는 계층마다 전달하지 않았습니다.
+
+ 
+
+controller, service, repository로 계층을 나눴지만, controller보다는 handler라는 이름을 사용할것을 추천합니다.
+controller는 operator를 구축할때 종종 사용되는 네이밍으로 고랭 네이밍컨벤션에 위반될수 있으므로 애플리케이션 확장시 단점이 될수 있습니다.
+주입오류를 파일에서 확인하고 싶으면 New의 리턴값으로 인터페이스를 리턴해도 됩니다.
+golang에서 인터페이스를 리턴하면 마샬링등에서 에러가 나는 경우가 있지만 레이어를 구축할때는 고려하지 않아도 됩니다.
+
+
+
+go test 라이브러리 -> mockup ->
+- github.com/golang/mock/gomock
+- github.com/stretchr/testify/mock
+
