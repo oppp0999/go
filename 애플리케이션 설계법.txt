@@ -1,0 +1,20 @@
+go 애플리케이션 설계
+https://mingrammer.com/translation-structuring-applications-in-go/
+https://mingrammer.com/translation-structuring-applications-in-go/
+https://mingrammer.com/translation-structuring-applications-in-go/
+https://mingrammer.com/translation-structuring-applications-in-go/
+
+1. 전역변수 사용하지 말기
+핸들러에 대해 특정한 타입을 만들어 필요한 변수들을 가질 수 있게 만드는 것이다.
+
+테스트할 때 전역 변수들을 사용한다는 것은 하면 안됨.
+
+2. 애플리케이션에서 바이너리를 분리
+main.go 파일과 애플리케이션 로직을 같은 패키지로 합치게되면 다음의 두 가지 결과를 갖게된다.
+
+1. 애플리케이션을 라이브러리로써 재사용할 수가 없다.
+2. 오직 하나의 애플리케이션 바이너리만을 가질 수 있다.
+
+
+서브 디렉토리가 하나의 애플리케이션 바이너리인 “cmd” 디렉토리를 사용하는 것
+
